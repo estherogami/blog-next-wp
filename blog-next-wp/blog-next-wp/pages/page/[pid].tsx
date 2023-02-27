@@ -18,6 +18,14 @@ export default function Home( props: PostsResponse ) {
   )
 }
 
+ export const getStaticPaths = async () => {
+   const response: PostsResponse = await getPosts();
+   const totalPages =response.totalPages;
+
+   const paths = Array.from({ length: totalPages }, (_, i) => `/page/${i + 1}`);
+   return { paths, fallback: true };
+ };
+
 
 export const getStaticProps: GetStaticProps = async (context) => {
   let pageNumber: number = 1;
